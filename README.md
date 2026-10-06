@@ -1,8 +1,8 @@
-# Caracterizar para ponderar, no para elegir
+# Hasta dónde permite decidir la estructura de una serie
 
-Código de *«Caracterizar para ponderar, no para elegir: estructura y combinación de
-modelos de pronóstico en las 100.000 series de la competencia M4»*
-(Peña Araya y Segura Pérez, UNAM).
+Código de *«Hasta dónde permite decidir la estructura de una serie, y por qué ahí se
+detiene: selección y combinación de modelos sobre las 100.000 series de la competencia
+M4»* (Peña Araya y Segura Pérez, UNAM).
 
 ## Qué contiene
 
@@ -36,7 +36,15 @@ frecuencias.
 | 10 | `analisis/comparacion_metaaprendizaje.py` | políticas E y F, estilo FFORMS y FFORMPP |
 | 11 | `analisis/politica_combinar.py` | elegir contra combinar, y los controles |
 | 12 | `analisis/test_friedman.py` | Friedman y post-hoc de Nemenyi |
-| 13 | `analisis/generar_figuras.py` | las figuras |
+| 13 | `analisis/fusionar_nbeats.py` | banco ampliado: mediana de cinco semillas de N-BEATS |
+| 14 | `analisis/incertidumbre_regimen.py` | bootstrap del régimen elegir-contra-combinar |
+| 15 | `analisis/incertidumbre_decisiones.py` | bootstrap de combinar contra estratificar |
+| 16 | `analisis/generar_figuras.py` | las figuras |
+
+El orden importa: `extraer_pronosticos.py` y `fusionar_nbeats.py` arman los cachés,
+`owa_modelos.py` escribe `owa_modelos_por_serie.csv`, y el enrutamiento, el
+meta-aprendizaje y Friedman leen ese csv y no el caché de pronósticos. Correrlos fuera
+de orden devuelve resultados viejos sin avisar.
 
 Los pasos 1 a 7 escriben en `results/`; los de `analisis/` leen de ahí.
 

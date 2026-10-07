@@ -36,11 +36,16 @@ frecuencias.
 | 10 | `analisis/comparacion_metaaprendizaje.py` | políticas E y F, estilo FFORMS y FFORMPP |
 | 11 | `analisis/politica_combinar.py` | elegir contra combinar, y los controles |
 | 12 | `analisis/test_friedman.py` | Friedman y post-hoc de Nemenyi |
-| 13 | `analisis/fusionar_nbeats.py` | banco ampliado: mediana de cinco semillas de N-BEATS |
-| 14 | `analisis/incertidumbre_regimen.py` | bootstrap del régimen elegir-contra-combinar |
-| 15 | `analisis/incertidumbre_decisiones.py` | bootstrap de combinar contra estratificar |
-| 16 | `analisis/estabilidad_indice.py` | estabilidad del índice ante ruido y recorte de historia |
-| 17 | `analisis/generar_figuras.py` | las figuras |
+| 13 | `analisis/incertidumbre_regimen.py` | bootstrap del régimen elegir-contra-combinar |
+| 14 | `analisis/incertidumbre_decisiones.py` | bootstrap de combinar contra estratificar |
+| 15 | `analisis/comparacion_catch22.py` | el índice propio frente a uno construido sobre catch22 |
+| 16 | `analisis/metaaprendiz_dos_pasos.py` | el esquema de dos pasos de Vaiciukynas et al., reimplementado |
+| 17 | `analisis/entrenar_nbeats.py` | N-BEATS por frecuencia, una corrida por semilla |
+| 18 | `analisis/fusionar_nbeats.py` | banco ampliado: mediana de cinco semillas |
+| 19 | `analisis/dispersion_nbeats.py` | cuánto se mueve N-BEATS al cambiar la semilla |
+| 20 | `analisis/sensibilidad_mensual.py` | si la inversión de régimen depende del fallo en mensual |
+| 21 | `analisis/estabilidad_indice.py` | estabilidad del índice ante ruido y recorte de historia |
+| 22 | `analisis/generar_figuras.py` | las figuras |
 
 El orden importa: `extraer_pronosticos.py` y `fusionar_nbeats.py` arman los cachés,
 `owa_modelos.py` escribe `owa_modelos_por_serie.csv`, y el enrutamiento, el

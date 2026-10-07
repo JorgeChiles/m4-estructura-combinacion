@@ -39,7 +39,8 @@ frecuencias.
 | 13 | `analisis/fusionar_nbeats.py` | banco ampliado: mediana de cinco semillas de N-BEATS |
 | 14 | `analisis/incertidumbre_regimen.py` | bootstrap del régimen elegir-contra-combinar |
 | 15 | `analisis/incertidumbre_decisiones.py` | bootstrap de combinar contra estratificar |
-| 16 | `analisis/generar_figuras.py` | las figuras |
+| 16 | `analisis/estabilidad_indice.py` | estabilidad del índice ante ruido y recorte de historia |
+| 17 | `analisis/generar_figuras.py` | las figuras |
 
 El orden importa: `extraer_pronosticos.py` y `fusionar_nbeats.py` arman los cachés,
 `owa_modelos.py` escribe `owa_modelos_por_serie.csv`, y el enrutamiento, el

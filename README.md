@@ -46,7 +46,8 @@ frecuencias.
 | 20 | `analisis/sensibilidad_mensual.py` | si la inversión de régimen depende del fallo en mensual |
 | 21 | `analisis/estabilidad_indice.py` | estabilidad del índice ante ruido y recorte de historia |
 | 22 | `analisis/incertidumbre_indice.py` | aporte del índice por tamaño de conjunto, remuestreando series |
-| 23 | `analisis/generar_figuras.py` | las figuras |
+| 23 | `analisis/diagnostico_clasificador.py` | por qué fracasa el clasificador: cuatro explicaciones, y cuál aguanta |
+| 24 | `analisis/generar_figuras.py` | las figuras |
 
 El orden importa: `extraer_pronosticos.py` y `fusionar_nbeats.py` arman los cachés,
 `owa_modelos.py` escribe `owa_modelos_por_serie.csv`, y el enrutamiento, el

@@ -153,8 +153,40 @@ def una_particion(d, ATR, semilla):
     predE = dict(zip(Xte.index, clf.predict(Xte.values)))
     fila["E_fforms"] = owa(elegidos(TE, predE), base_te)
 
-    # ── F · FFORMPP: predecir el error de CADA modelo y quedarse con el menor
     modelos = sorted(TR.modelo.unique())
+
+    # ── E' · el MISMO clasificador, decidido con la perdida correcta.
+    # La politica E se queda con la clase mas probable, lo que equivale a
+    # minimizar la perdida 0-1: equivocarse de modelo cuesta lo mismo siempre.
+    # No es el caso --elegir el segundo mejor cuesta milesimas y elegir uno que
+    # diverge cuesta ordenes de magnitud-- asi que aqui se elige el modelo que
+    # minimiza el arrepentimiento ESPERADO bajo las probabilidades del propio
+    # bosque, con la matriz de arrepentimiento estimada en entrenamiento y por
+    # frecuencia. Mismo bosque, misma etiqueta: cambia solo la regla de decision.
+    # El diagnostico completo --por que fracasa E y que otras explicaciones se
+    # descartan-- esta en diagnostico_clasificador.py.
+    pos = {m: i for i, m in enumerate(modelos)}
+    Str = (TR.pivot_table(index="serie", columns="modelo", values="smape")
+             .reindex(columns=modelos).loc[Xtr.index])
+    ytr_i = np.array([pos[m] for m in ytr.values])
+    reg = Str.values - Str.values[np.arange(len(Xtr)), ytr_i][:, None]
+    clases = [pos[m] for m in clf.classes_]
+    P = clf.predict_proba(Xte.values)
+    ftr = TR.drop_duplicates("serie").set_index("serie").frecuencia.loc[Xtr.index]
+    fte = TE.drop_duplicates("serie").set_index("serie").frecuencia.loc[Xte.index]
+    predEp = {}
+    for f in fte.unique():
+        mtr, mte = (ftr == f).values, (fte == f).values
+        L = np.zeros((len(clases), len(modelos)))
+        glob = reg[mtr].mean(0) if mtr.sum() else reg.mean(0)
+        for a, c in enumerate(clases):
+            sel = mtr & (ytr_i == c)
+            L[a] = reg[sel].mean(0) if sel.sum() >= 3 else glob
+        for s, j in zip(Xte.index[mte], (P[mte] @ L).argmin(1)):
+            predEp[s] = modelos[j]
+    fila["Ep_costos"] = owa(elegidos(TE, predEp), base_te)
+
+    # ── F · FFORMPP: predecir el error de CADA modelo y quedarse con el menor
     pred = np.full((len(Xte), len(modelos)), np.nan)
     for j, m in enumerate(modelos):
         sub = TR[TR.modelo == m].drop_duplicates("serie").set_index("serie")
@@ -184,6 +216,7 @@ def main():
     NOM = {"A_fijo": "A · modelo fijo", "B_frecuencia": "B · por frecuencia",
            "C_indice": "C · frecuencia + índice (2 estratos)",
            "E_fforms": "E · clasificador sobre 29 atributos",
+           "Ep_costos": "E' · el mismo, con la pérdida correcta",
            "F_fformpp": "F · regresor por modelo, 29 atributos",
            "D_oraculo": "D · oráculo (cota)"}
     print("═══ OWA EN PRUEBA ═══")
@@ -193,7 +226,8 @@ def main():
 
     from scipy.stats import wilcoxon
     print("\n═══ ¿EL META-APRENDIZ COMPLETO LE GANA AL ÍNDICE? ═══")
-    for c, nom in (("E_fforms", "clasificador"), ("F_fformpp", "regresor por modelo")):
+    for c, nom in (("E_fforms", "clasificador"), ("Ep_costos", "clasif. con costos"),
+                   ("F_fformpp", "regresor por modelo")):
         dif = R.C_indice - R[c]        # positivo = el meta-aprendiz es mejor
         p = wilcoxon(R[c], R.C_indice)[1]
         gana = "el meta-aprendiz" if dif.mean() > 0 else "el índice"
@@ -207,14 +241,17 @@ def main():
             continue
         print(f"    {nom:40s} {100*((R.A_fijo - R[c])/h).mean():5.1f} %")
 
-    fig, ax = plt.subplots(figsize=(6.2, 3.2))
-    cols = ["A_fijo", "B_frecuencia", "C_indice", "E_fforms", "F_fformpp", "D_oraculo"]
+    fig, ax = plt.subplots(figsize=(6.2, 2.9))
+    cols = ["A_fijo", "B_frecuencia", "C_indice", "E_fforms", "Ep_costos",
+            "F_fformpp", "D_oraculo"]
     bp = ax.boxplot([R[c] for c in cols], widths=.55, patch_artist=True,
                     showfliers=False, medianprops=dict(color="k", lw=1.1))
-    for b, c in zip(bp["boxes"], [GRIS, AZUL, VERDE, MORADO, NARANJA, "#BFBFBF"]):
+    for b, c in zip(bp["boxes"], [GRIS, AZUL, VERDE, MORADO, "#C77CFF", NARANJA,
+                                  "#BFBFBF"]):
         b.set(facecolor=c, alpha=.65, linewidth=.7)
     ax.set_xticklabels(["A\nfijo", "B\nfrecuencia", "C\níndice", "E\nclasific.",
-                        "F\nregresor", "D\noráculo"], fontsize=7.8)
+                        "E$'$\ncon costos", "F\nregresor", "D\noráculo"],
+                       fontsize=7.8)
     ax.axhline(1.0, color=NARANJA, ls="--", lw=1, zorder=0)
     ax.text(.06, 1.0, "Naive2", color=NARANJA, fontsize=7.5, va="bottom")
     ax.set_ylabel("OWA en prueba")

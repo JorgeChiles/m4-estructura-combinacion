@@ -20,6 +20,20 @@ originales de la competencia desde el repositorio de los organizadores
 `data/` con los nombres `Yearly-train.csv`, `Yearly-test.csv`, y así para las seis
 frecuencias.
 
+Para la validación externa hacen falta además las series de M3 y los pronósticos
+publicados de los métodos que compitieron, ambos en el paquete `Mcomp` de R. Bajar
+`M3.rda` y `M3Forecast.rda` de <https://github.com/robjhyndman/Mcomp/tree/master/data>
+a `data_m3/` y convertirlos a CSV con:
+
+```
+Rscript src/exportar_m3.R data_m3/M3.rda data_m3/M3Forecast.rda data_m3
+```
+
+No se reajusta ningún modelo sobre M3: el error por serie se reconstruye de esos
+pronósticos. Los descriptores sí se recalculan, con el mismo código que los calculó
+sobre M4 —`src/rasgos_v2.py`, que genera `src/extraer_rasgos.py` a partir del notebook
+original y no se edita a mano.
+
 ## Orden de ejecución
 
 | | Guion | Qué produce |
@@ -47,7 +61,8 @@ frecuencias.
 | 21 | `analisis/estabilidad_indice.py` | estabilidad del índice ante ruido y recorte de historia |
 | 22 | `analisis/incertidumbre_indice.py` | aporte del índice por tamaño de conjunto, remuestreando series |
 | 23 | `analisis/diagnostico_clasificador.py` | por qué fracasa el clasificador: cuatro explicaciones, y cuál aguanta |
-| 24 | `analisis/generar_figuras.py` | las figuras |
+| 24 | `analisis/validacion_externa_m3.py` | el mismo protocolo sobre M3, con el índice transferido |
+| 25 | `analisis/generar_figuras.py` | las figuras |
 
 El orden importa: `extraer_pronosticos.py` y `fusionar_nbeats.py` arman los cachés,
 `owa_modelos.py` escribe `owa_modelos_por_serie.csv`, y el enrutamiento, el
@@ -70,7 +85,8 @@ Ver el apéndice de reproducibilidad del artículo para el entorno exacto.
 ## Entorno
 
 Python 3.10.20, TensorFlow 2.21.0, NumPy 2.2.5, scikit-learn 1.7.2, statsmodels 0.14.6.
-Todo en CPU. `pip install -r requirements.txt`.
+Todo en CPU. `pip install -r requirements.txt`. El único paso que no es Python es
+`src/exportar_m3.R`, que solo necesita R base para leer los `.rda` y escribir tres CSV.
 
 ## Cita
 

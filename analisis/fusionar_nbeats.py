@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Arma el banco ampliado: los 26 modelos mas N-BEATS, agregado por semillas.
+Arma el banco ampliado: los 27 modelos mas N-BEATS, agregado por semillas.
 
 Por que existe este archivo
 ---------------------------

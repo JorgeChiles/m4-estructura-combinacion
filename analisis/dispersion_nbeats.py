@@ -39,7 +39,7 @@ FRECS = {"Yearly": (6, 1), "Quarterly": (8, 4), "Monthly": (18, 12),
          "Weekly": (13, 1), "Daily": (14, 1), "Hourly": (48, 24)}
 POBLACION_M4 = {"Yearly": 23000, "Quarterly": 24000, "Monthly": 48000,
                 "Weekly": 359, "Daily": 4227, "Hourly": 414}
-# mejor de los 26 modelos del banco, por frecuencia
+# mejor de los 27 modelos del banco, por frecuencia
 MEJOR_BANCO = {"Yearly": 0.9139, "Quarterly": 0.9456, "Monthly": 0.9325,
                "Weekly": 0.8971, "Daily": 0.9791, "Hourly": 0.6260}
 

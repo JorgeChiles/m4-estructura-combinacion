@@ -258,7 +258,7 @@ def main():
          r"% deja huecos y LaTeX lo reporta como underfull hbox.",
          r"\begin{longtable}{>{\raggedright\arraybackslash}p{0.21\linewidth}"
          r">{\raggedright\arraybackslash}p{0.71\linewidth}}",
-         r"\caption{Configuración de los 26 modelos evaluados. Los valores "
+         r"\caption{Configuración de los 27 modelos evaluados. Los valores "
          r"provienen de la configuración efectivamente registrada en cada "
          r"corrida, no de la documentación de las bibliotecas. "
          r"``por serie'' indica que el parámetro se selecciona automáticamente "

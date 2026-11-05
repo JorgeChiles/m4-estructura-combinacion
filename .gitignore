@@ -5,3 +5,13 @@ results/
 __pycache__/
 .ipynb_checkpoints/
 .DS_Store
+# subproductos de LaTeX: los .tex del articulo si se versionan, el PDF no
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+main_en.pdf
+main_suplemento_en.pdf

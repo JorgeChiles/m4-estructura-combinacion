@@ -10,6 +10,7 @@ M4»* (Peña Araya y Segura Pérez, UNAM).
 src/        el pipeline: características, PCA, índice, clustering, entropías, métricas
 analisis/   los experimentos del artículo: enrutamiento, meta-aprendizaje, combinación
 figuras/    las figuras del artículo, en PDF vectorial
+*.tex       el artículo y el material suplementario, en inglés
 ```
 
 ## Datos
@@ -44,7 +45,7 @@ original y no se edita a mano.
 | 4 | `src/04_forecasting_errors.py` | errores del pronóstico ingenuo por serie |
 | 5 | `src/05_entropy_validation.py` | regresiones anidadas: índice contra entropías |
 | 6 | `src/06_m4_metrics.py` | sMAPE, MASE y OWA oficiales; benchmark Naive2 |
-| 7 | `src/owa_modelos.py` | OWA de los 26 modelos, por serie |
+| 7 | `src/owa_modelos.py` | OWA de los 27 modelos, por serie |
 | 8 | `analisis/extraer_pronosticos.py` | cachea los pronósticos (hace falta para combinar) |
 | 9 | `analisis/experimento_enrutamiento.py` | políticas A–D y barrido de estratos |
 | 10 | `analisis/comparacion_metaaprendizaje.py` | políticas E y F, estilo FFORMS y FFORMPP |
@@ -81,6 +82,24 @@ Las que involucran redes neuronales **no reproducen**, y eso es un resultado del
 artículo, no un descuido. Fijar la semilla resultó insuficiente: al cambiar únicamente
 el número de hilos (`OMP_NUM_THREADS` de 4 a 2), ninguna de 2.250 mediciones coincidió.
 Ver el apéndice de reproducibilidad del artículo para el entorno exacto.
+
+## El artículo
+
+Las fuentes en inglés se versionan aquí y compilan contra las figuras de `figuras/`
+sin mover nada de sitio:
+
+```
+pdflatex main_en.tex             # el artículo, 35 páginas
+pdflatex main_suplemento_en.tex  # el material suplementario, 12 páginas
+```
+
+Hacen falta tres pasadas para que resuelvan las referencias cruzadas. Cada raíz
+incluye su fragmento, `CSMIO2026_article_en.tex` y `CSMIO2026_suplemento_en.tex`, y
+el suplemento incluye además `apendice_hiperparametros_en.tex`. Esa tabla es la
+traducción de la que escribe `analisis/tabla_hiperparametros.py`, que la arma leyendo
+la configuración registrada en cada corrida y no la documentación de las bibliotecas;
+si cambia un hiperparámetro hay que volver a correr el guion y traducir su salida.
+La versión en español se mantiene fuera del repositorio.
 
 ## Entorno
 

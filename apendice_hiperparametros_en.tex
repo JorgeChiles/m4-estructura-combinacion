@@ -1,0 +1,58 @@
+% Tabla de hiperparametros, version en ingles de apendice_hiperparametros.tex
+% Requiere: \usepackage{booktabs}, \usepackage{longtable} y \usepackage{array}
+% Las columnas van en ragged right: justificado en una columna angosta
+% deja huecos y LaTeX lo reporta como underfull hbox.
+%
+% OJO: el porcentaje de validacion va como 20\%, no 20\\% -- el doble
+% backslash cerraba la fila y el % comentaba el resto, que es como se
+% perdieron los conteos de parametros entrenables en el original.
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.71\linewidth}}
+\caption{Configuration of the 27 models evaluated. The values come from the configuration actually recorded in each run, not from the libraries' documentation. ``per series'' indicates that the parameter is selected automatically for each series.}\label{tab:hiperparametros}\\
+\toprule
+\textbf{Model} & \textbf{Configuration} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Model} & \textbf{Configuration} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{2}{l}{\textit{Benchmark}} \\[1mm]
+\hspace{.6em}Naive & Repeats the last observation \\
+\hspace{.6em}Seasonal naive & period = 4 \\
+\addlinespace
+\multicolumn{2}{l}{\textit{Statistical}} \\[1mm]
+\hspace{.6em}Exponential smoothing & alpha\_optimized: per series \\
+\hspace{.6em}Holt & alpha\_optimized: per series; beta\_optimized: per series \\
+\hspace{.6em}Holt-Winters & alpha: per series; beta: per series; gamma: per series \\
+\hspace{.6em}ARIMA & p\_d\_q: per series; P\_D\_Q\_m: per series \\
+\hspace{.6em}SARIMA & p\_d\_q: per series; P\_D\_Q\_m: per series \\
+\hspace{.6em}ETS & alpha: per series; use\_boxcox = False \\
+\addlinespace
+\multicolumn{2}{l}{\textit{Machine learning}} \\[1mm]
+\hspace{.6em}Linear regression & fit\_intercept = True; tol = 1e-06 \\
+\hspace{.6em}LassoLars & Fitted per series with RandomizedSearchCV (25 draws, 3-fold cross-validation) over: alpha $\in$ logspace($-4$, 1, 60); max\_iter $\in$ \{200, 500, 1000, 2000\}; fit\_intercept, positive, precompute \\
+\hspace{.6em}Bayesian ridge & Fitted per series with RandomizedSearchCV (25 draws, 3-fold cross-validation) over: alpha$_1$, alpha$_2$, lambda$_1$, lambda$_2$ $\in$ logspace($-8$, $-2$, 20); tol $\in$ \{1e-6, 1e-5, 1e-4, 1e-3\} \\
+\hspace{.6em}Bagging & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: n\_estimators $\in$ \{50, 100, 200, 300, 500\}; max\_samples and max\_features $\in$ \{0.5, 0.7, 0.9, 1.0\}; bootstrap \\
+\hspace{.6em}Random Forest & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: n\_estimators $\in$ \{50, 100, 200, 300\}; max\_depth $\in$ \{None, 5, 10, 20, 30\}; min\_samples\_split, min\_samples\_leaf; max\_features $\in$ \{sqrt, log2, None\} \\
+\hspace{.6em}AdaBoost & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: n\_estimators $\in$ \{50, 100, 200, 300, 500\}; learning\_rate $\in$ \{0.01, 0.05, 0.1, 0.2, 0.5, 1.0\}; loss $\in$ \{linear, square, exponential\}; depth of the base tree $\in$ \{2--6, None\} \\
+\hspace{.6em}XGBoost & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: n\_estimators $\in$ \{100, 200, 300, 500\}; learning\_rate $\in$ \{0.01, 0.05, 0.1, 0.2\}; max\_depth $\in$ \{3, 5, 7, 10\}; subsample and colsample\_bytree $\in$ \{0.6, 0.8, 1.0\} \\
+\hspace{.6em}LightGBM & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: n\_estimators $\in$ \{300, 600, 900\}; learning\_rate $\in$ \{0.02, 0.05, 0.1\}; max\_depth $\in$ \{4, 6, 8\}; num\_leaves $\in$ \{15, 31, 63\}; min\_data\_in\_leaf, max\_bin \\
+\hspace{.6em}SVM & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: RBF kernel; $C \in$ \{0.1, 1, 10\}; epsilon $\in$ \{0.01, 0.1\}; gamma $\in$ \{scale, 0.01, 0.1\} \\
+\hspace{.6em}KNN & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: n\_neighbors $\in$ \{1, \dots, 30\}; weights $\in$ \{uniform, distance\}; $p \in$ \{1, 2\} \\
+\hspace{.6em}Gaussian process & Fitted per series with RandomizedSearchCV (30 draws, 3-fold cross-validation) over: kernel among combinations of RBF, Mat\'ern and WhiteKernel; alpha $\in$ \{1e-8, 1e-6, 1e-4, 1e-3\} \\
+\addlinespace
+\multicolumn{2}{l}{\textit{Hybrid}} \\[1mm]
+\hspace{.6em}ARIMA-RF & arima\_order = (2, 1, 2); max\_lag = 3 \\
+\hspace{.6em}ARIMA-NN & arima\_order = (2, 1, 2); max\_lag = 3 \\
+\hspace{.6em}SARIMA-NN & sarima\_order = (2, 1, 2); seasonal\_order = (1, 1, 1, 4) \\
+\addlinespace
+\multicolumn{2}{l}{\textit{Neural network}} \\[1mm]
+\hspace{.6em}Perceptron & Dense(64) $\to$ Dense(32) $\to$ Dense(1). Adam optimizer, MSE loss, 50 epochs, batch 16, validation 20\%. 2,561 trainable parameters \\
+\hspace{.6em}1D ConvNet & Conv1D(64) $\to$ Dropout(0.1) $\to$ Flatten $\to$ Dense(32) $\to$ Dense(1). Adam optimizer, MSE loss, 50 epochs, batch 16, validation 20\%. 13,569 trainable parameters \\
+\hspace{.6em}LSTM & Bidirectional $\to$ Dropout(0.1) $\to$ LSTM(64) $\to$ Dense(32) $\to$ Dense(32) $\to$ Dense(1). Adam optimizer, MSE loss, 50 epochs, batch 16, validation 20\%. 88,929 trainable parameters \\
+\hspace{.6em}Transformer & Dense(64) $\to$ LayerNormalization $\to$ MultiHeadAttention $\to$ Dropout(0.1) $\to$ Add $\to$ LayerNormalization $\to$ Dense(128) $\to$ Dropout(0.1) $\to$ Dense(64) $\to$ Add $\to$ LayerNormalization $\to$ MultiHeadAttention $\to$ Dropout(0.1) $\to$ Add $\to$ LayerNormalization $\to$ Dense(128) $\to$ Dropout(0.1) $\to$ Dense(64) $\to$ Add $\to$ Lambda $\to$ Dense(128) $\to$ Dropout(0.1) $\to$ Dense(1). Adam optimizer, MSE loss, 50 epochs, batch 16, validation 20\%. 75,841 trainable parameters \\
+\hspace{.6em}LSTM-ConvNet & Conv1D(64) $\to$ Bidirectional $\to$ Dropout(0.1) $\to$ LSTM(50) $\to$ Dense(64) $\to$ Dense(32) $\to$ Dense(1). Adam optimizer, MSE loss, 50 epochs, batch 16, validation 20\%. 82,793 trainable parameters \\
+\addlinespace
+\end{longtable}

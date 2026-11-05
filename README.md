@@ -10,7 +10,7 @@ M4»* (Peña Araya y Segura Pérez, UNAM).
 src/        el pipeline: características, PCA, índice, clustering, entropías, métricas
 analisis/   los experimentos del artículo: enrutamiento, meta-aprendizaje, combinación
 figuras/    las figuras del artículo, en PDF vectorial
-*.tex       el artículo y el material suplementario, en inglés
+*.tex       el artículo y el material suplementario, en español y en inglés
 ```
 
 ## Datos
@@ -85,21 +85,36 @@ Ver el apéndice de reproducibilidad del artículo para el entorno exacto.
 
 ## El artículo
 
-Las fuentes en inglés se versionan aquí y compilan contra las figuras de `figuras/`
-sin mover nada de sitio:
+Las fuentes se versionan aquí en los dos idiomas y compilan contra las figuras de
+`figuras/` sin mover nada de sitio. Hay cuatro documentos raíz:
+
+| Raíz | Qué compila | Páginas |
+|---|---|---|
+| `main.tex` | el artículo | 35 |
+| `main_suplemento.tex` | el material suplementario | 12 |
+| `main_en.tex` | el artículo, en inglés | 35 |
+| `main_suplemento_en.tex` | el material suplementario, en inglés | 12 |
 
 ```
-pdflatex main_en.tex             # el artículo, 35 páginas
-pdflatex main_suplemento_en.tex  # el material suplementario, 12 páginas
+pdflatex main.tex && pdflatex main.tex && pdflatex main.tex
 ```
 
-Hacen falta tres pasadas para que resuelvan las referencias cruzadas. Cada raíz
-incluye su fragmento, `CSMIO2026_article_en.tex` y `CSMIO2026_suplemento_en.tex`, y
-el suplemento incluye además `apendice_hiperparametros_en.tex`. Esa tabla es la
-traducción de la que escribe `analisis/tabla_hiperparametros.py`, que la arma leyendo
-la configuración registrada en cada corrida y no la documentación de las bibliotecas;
-si cambia un hiperparámetro hay que volver a correr el guion y traducir su salida.
-La versión en español se mantiene fuera del repositorio.
+Hacen falta las tres pasadas para que resuelvan las referencias cruzadas y las citas,
+que van en un `thebibliography` dentro del propio fragmento y no en un `.bib`. Si una
+pasada se interrumpe deja un `.aux` truncado y la siguiente falla con «File ended
+while scanning use of `\@writefile`»; se arregla borrando el `.aux` y empezando de
+cero, no agregando pasadas.
+
+Cada raíz incluye su fragmento, `CSMIO2026_articulo.tex` o `CSMIO2026_article_en.tex`,
+y los suplementos incluyen además la tabla de hiperparámetros. La versión en español
+de esa tabla la escribe `analisis/tabla_hiperparametros.py` leyendo la configuración
+registrada en cada corrida, no la documentación de las bibliotecas; la inglesa es su
+traducción. Si cambia un hiperparámetro hay que volver a correr el guion y traducir su
+salida.
+
+Las dos versiones son espejo: mismas secciones, mismas etiquetas, mismas figuras y las
+mismas cifras. Lo único que difiere es el idioma, incluido el separador de miles, que
+en inglés es coma.
 
 ## Entorno
 

@@ -13,5 +13,4 @@ __pycache__/
 *.synctex.gz
 *.fls
 *.fdb_latexmk
-main_en.pdf
-main_suplemento_en.pdf
+/main*.pdf
